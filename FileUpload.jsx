@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 
-const FileUploader = () => {
+const FileUploader = ({ setFileText }) => {
   const [fileName, setFileName] = useState("");
-  const [fileText, setFileText] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Mock file-to-text function
   const extractTextFromFile = (file) => {
-    // For now, just return a placeholder text
-    return `Extracted text from "${file.name}" (mock)`;
+    // Mock extraction for now
+    return `This is a mock text from "${file.name}". It has multiple clauses. Here is another clause. And one more clause.`;
   };
 
   const handleFileChange = (e) => {
@@ -29,23 +27,19 @@ const FileUploader = () => {
 
     setFileName(file.name);
 
-    // Extract text (mock)
     const text = extractTextFromFile(file);
     setFileText(text);
 
     setSuccessMessage("File uploaded successfully!");
   };
 
-  // Optional: handle drag & drop
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     handleFileChange({ target: { files: [file] } });
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleDragOver = (e) => e.preventDefault();
 
   return (
     <div
@@ -60,23 +54,15 @@ const FileUploader = () => {
       onDragOver={handleDragOver}
     >
       <h3>Upload your contract</h3>
-      <input
-        type="file"
-        onChange={handleFileChange}
-        style={{ marginBottom: "10px" }}
-      />
+      <input type="file" onChange={handleFileChange} style={{ marginBottom: "10px" }} />
       <p>Or drag & drop here</p>
 
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
 
-      {fileName && (
-        <div>
-          <h4>Preview of "{fileName}"</h4>
-          <p>{fileText}</p>
-        </div>
-      )}
+      {fileName && <p>File: {fileName}</p>}
     </div>
   );
 };
 
 export default FileUploader;
+
